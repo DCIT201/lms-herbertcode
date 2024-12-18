@@ -8,7 +8,6 @@ public final class Book {
     private final String author;
     private final int yearPublished;
 
-    
     public Book(String title, String author, int yearPublished) {
         if (title == null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("Title cannot be null or empty");
@@ -25,28 +24,25 @@ public final class Book {
         this.yearPublished = yearPublished;
     }
 
-    
+
     public String getTitle() {
         return title;
     }
 
-    
+
     public String getAuthor() {
         return author;
     }
 
-  
+
     public int getYearPublished() {
         return yearPublished;
     }
 
-    @Override
     public String toString() {
         return String.format("Book [Title: %s, Author: %s, Year Published: %d]", title, author, yearPublished);
     }
 
-    
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
@@ -55,9 +51,6 @@ public final class Book {
                Objects.equals(title, book.title) &&
                Objects.equals(author, book.author);
     }
-
-    
-    @Override
     public int hashCode() {
         return Objects.hash(title, author, yearPublished);
     }
