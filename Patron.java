@@ -1,23 +1,25 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 public class Patron {
+    
     private String patronId;
     private String name;
     private int age;
     private String email;
     private List<Book> borrowedBooks;
 
-    // Constructor
-    public Patron(String patronId, String name, String email) {
+    public Patron(String patronId, String name, String email, int age) {
         this.patronId = patronId;
         this.name = name;
         this.email = email;
+        this.age = age;
         this.borrowedBooks = new ArrayList<>();
     }
 
-    // Getters and Setters
     public String getPatronId() {
         return patronId;
     }
@@ -43,24 +45,40 @@ public class Patron {
     }
 
     public List<Book> getBorrowedBooks() {
-        return borrowedBooks;
+        return Collections.unmodifiableList(borrowedBooks); // Prevent external modification
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative");
+        }
+        this.age = age;
+    }
+
     
-    public int getAge(){
-        return this.age;
-    }
-
-
-    public void borrowBoox(Book book){
-        if(borrowedBooks.add(book)){
+    public void borrowBook(Book book) {
+        if (book == null) {
+            System.out.println("Cannot borrow a null book.");
+            return;
+        }
+        if (borrowedBooks.contains(book)) {
+            System.out.println("You have already borrowed the book: " + book.getTitle());
+        } else {
+            borrowedBooks.add(book);
             System.out.println(book.getTitle() + " has been borrowed.");
         }
-        else{
-            System.out.println(book.getTitle()+" was not borrowed");
-        }
     }
 
+    
     public void returnBook(Book book) {
+        if (book == null) {
+            System.out.println("Cannot return a null book.");
+            return;
+        }
         if (borrowedBooks.remove(book)) {
             System.out.println(name + " returned the book: " + book.getTitle());
         } else {
@@ -68,6 +86,7 @@ public class Patron {
         }
     }
 
+   
     public void listBorrowedBooks() {
         if (borrowedBooks.isEmpty()) {
             System.out.println(name + " has not borrowed any books.");
@@ -79,11 +98,12 @@ public class Patron {
         }
     }
 
-    // Display patron details
+    
     public void displayPatronDetails() {
         System.out.println("Patron ID: " + patronId);
         System.out.println("Name: " + name);
         System.out.println("Email: " + email);
+        System.out.println("Age: " + age);
         System.out.println("Number of Borrowed Books: " + borrowedBooks.size());
     }
 }
