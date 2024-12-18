@@ -1,45 +1,83 @@
+package org.example;
 import java.util.ArrayList;
+import java.util.List;
 
-public class LibraryManagement {
-    public static void main(String[] args) {
-        Library library = new Library("Balme Library");
-        library.addBook(new Book("1984", "George Orwell", "1234567890"));
-        library.addBook(new Book("To Kill a Mockingbird", "Harper Lee", "1234567891"));
-        library.displayBooks();
-    }
-}
+public class Library{
+    private String name;
+    private String address;
+    private List<Book> books;
+    private List<Patron> patrons;
 
-class Book {
-    private final String title, author, isbn;
-
-    public Book(String title, String author, String isbn) {
-        this.title = title;
-        this.author = author;
-        this.isbn = isbn;
+    Library(String name, String address){
+        this.name = name;
+        this. address = address;
+        this.books = new ArrayList<Book>();
+        this.patrons = new ArrayList<Patron>();
     }
 
-    public void displayDetails() {
-        System.out.println(title + " by " + author + " (ISBN: " + isbn + ")");
-    }
-}
 
-class Library {
-    private final String name;
-    private final ArrayList<Book> books = new ArrayList<>();
-
-    public Library(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
-    public void addBook(Book book) {
-        books.add(book);
+    public String getName(){
+        return this.name;
     }
 
-    public void displayBooks() {
-        if (books.isEmpty()) {
-            System.out.println("No books in " + name);
-        } else {
-            books.forEach(Book::displayDetails);
+    public void setAddress(String address){
+        this.address = address;
+    }
+
+    public String getAddress(){
+        return this.address;
+    }
+
+    public void addBook(Book book){
+        if(this.books.add(book)){
+            System.out.println(book.getTitle()+" has been added to the library");
+        }
+        else{
+            System.out.println(book.getTitle() +" was not added to the library");
         }
     }
+
+    public void removeBook(Book book){
+        if(this.books.contains(book)){
+            this.books.remove(book);
+            System.out.println(book.getTitle()+" has been removed from library");
+        }
+        else{
+            System.out.println(book.getTitle()+" is not in the library");
+        }
+    }
+
+    public void addPatron(Patron patron){
+        if(this.patrons.add(patron)){
+            System.out.println(patron.getName()+" has subscribed to the library");
+        }
+        else{
+            System.out.println(patron.getName()+" could not be added to library subscription");
+        }
+    }
+
+    public void displayBooks(){
+        for(Book book:books){
+            System.out.println("Title: "+book.getTitle()+ ", Author: "+book.getAuthor()+", Publication year: "+ book.getYearPublished());
+        }
+    }
+
+    public void displayPatronDetails(){
+        for(Patron patron:patrons){
+            System.out.println("Name: "+patron.getName()+ ", Id: "+patron.getPatronId());
+        }
+    }
+
+    public void displayLibraryDetails(){
+        System.out.println("Name: "+ this.getName());
+        System.out.println("Address: "+this.getAddress());
+        this.displayBooks();
+        this.displayPatronDetails();
+    }
+
+
 }
